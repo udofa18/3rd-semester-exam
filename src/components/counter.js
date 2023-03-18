@@ -17,6 +17,9 @@ const useCounter = () => {
   function setValue(payload) {
     store.dispatch("setValue", payload);
   }
-  return { counter, increment, decrease, reset, setValue };
+  function setQuantity(payload) {
+    store.dispatch("setQuantity", payload);
+  }
+  return { counter, increment, decrease, reset, setValue, setQuantity };
 };
 export default useCounter;

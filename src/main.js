@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import Vuetify from "vuetify";
+import "aos/dist/aos.css";
 
 // // import * as Vue from "vue";
 // import { BootstrapVue } from "bootstrap-vue";
@@ -12,4 +12,4 @@ import Vuetify from "vuetify";
 
 // Make BootstrapVue available throughout your project
 
-createApp(App).use(store).use(router).use(Vuetify).mount("#app");
+createApp(App).use(store).use(router).mount("#app");

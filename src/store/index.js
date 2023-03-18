@@ -16,6 +16,7 @@ export default createStore({
   mutations: {
     increment(state) {
       state.count++;
+      state.qtyInc = false;
     },
     decrease(state) {
       state.count -= 1;
@@ -27,6 +28,9 @@ export default createStore({
       state.count * state.price;
     },
     setValue(state, payload) {
+      state.count = payload;
+    },
+    setQuantity(state, payload) {
       state.count = payload;
     },
   },
@@ -42,6 +46,9 @@ export default createStore({
       commit("reset");
     },
     setValue({ commit }, payload) {
+      commit("setValue", payload);
+    },
+    setQuantity({ commit }, payload) {
       commit("setValue", payload);
     },
   },

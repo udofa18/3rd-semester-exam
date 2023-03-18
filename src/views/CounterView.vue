@@ -22,35 +22,83 @@
         <div class="cart-con">
           <h3>
             Input Quantity:
-            <input class="value" @keydown.enter="setValueHandler" type="tel" />
-
+            <input
+              class="value"
+              @keydown.enter="setValueHandler"
+              @input="setValueHandler"
+            />
             <h6>Press Enter</h6>
           </h3>
-          <button class="button1" @click="increment">
-            + Quantity
-            <div class="count-con">{{ counter }}</div>
-          </button>
-
-          <button
-            class="button2"
-            :class="{ disabledButton: !counter }"
-            :disabled="!counter"
-            @click="decrease"
+          <span
+            @click="
+              qtyInc = true;
+              qtyDec = false;
+            "
           >
-            - Remove
-          </button>
+            <button class="button1" @click="increment">
+              + Quantity
+              <div class="count-con">
+                {{ counter }}
+              </div>
+            </button>
+          </span>
+          <span
+            @click="
+              qtyDec = true;
+              qtyInc = false;
+            "
+          >
+            <button
+              class="button2"
+              :class="{ disabledButton: !counter }"
+              :disabled="!counter"
+              @click="decrease"
+            >
+              - Remove
+            </button>
+          </span>
           <button class="button3" @click="reset">X Clear</button>
           <br />
-          <button
-            class="button4"
-            :class="{ disabledButton: !counter }"
-            :disabled="!counter"
-            v-on:click="c"
+          <Transition name="fade" appear>
+            <button
+              class="button4"
+              :class="{ disabledButton: !counter }"
+              :disabled="!counter"
+              @click="showModal = true"
+            >
+              Checkout
+            </button></Transition
           >
-            Checkout
-          </button>
         </div>
       </span>
+      <transition name="fade" appear>
+        <div
+          class="modal-overlay"
+          v-if="showModal"
+          @click="showModal = false"
+        ></div>
+      </transition>
+      <Transition name="slide" appear>
+        <div class="popup-con" v-if="showModal">
+          <div class="popup-data">
+            <h1>Success</h1>
+            <p style="color: white">
+              You have successfully bought {{ counter }} pieces of Phantom shoes
+            </p>
+            <button class="button5" @click="showModal = false">Close</button>
+          </div>
+        </div>
+      </Transition>
+      <Transition name="toast" appear>
+        <div class="inc-alert" v-if="qtyInc">
+          <h1>Item added</h1>
+        </div>
+      </Transition>
+      <Transition name="toast" appear>
+        <div class="inc-alert dec" v-if="qtyDec">
+          <h1>Item Removed</h1>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -79,6 +127,9 @@ export default {
       link: "#",
       disabled: true,
       update: "",
+      showModal: false,
+      qtyInc: false,
+      qtyDec: false,
     };
   },
 
@@ -86,14 +137,24 @@ export default {
     priceupdate() {
       return this.$store.getters.counter * this.price;
     },
+    qt() {
+      return this.$store.getters.qtyInc;
+    },
   },
   setup() {
     const { counter, increment, decrease, reset, setValue } = useCounter();
+
     function setValueHandler(payload) {
       console.log(+payload?.target?.value);
       setValue(+payload?.target?.value);
     }
-    return { counter, increment, decrease, reset, setValueHandler };
+    return {
+      counter,
+      increment,
+      decrease,
+      reset,
+      setValueHandler,
+    };
   },
 };
 </script>
@@ -128,6 +189,10 @@ h4 {
   margin-top: 1px;
   margin-bottom: 20px;
 }
+input {
+  background-color: orange;
+  border: 2px solid orange;
+}
 button {
   padding: 15px;
   width: 60%;
@@ -159,6 +224,12 @@ button:hover {
   margin-top: 5%;
   background-color: red;
   color: white;
+}
+.button5 {
+  background-color: rgb(255, 115, 0);
+  color: white;
+  width: 30%;
+  text-align: center;
 }
 .disabledButton {
   background-color: #d8d8d8;
@@ -221,12 +292,100 @@ button:hover {
   left: 0;
   width: 120%;
 }
+.popup-con {
+  border: 2px solid orange;
+  width: 30%;
+  height: 30%;
+  background-color: rgba(11, 9, 9, 0.876);
+  position: absolute;
+  border-radius: 30px;
+  margin-left: 25%;
+  z-index: 99;
+  padding: 30px;
+  /* position: fixed; */
+}
+.inc-alert {
+  font-size: 6px;
+  position: absolute;
+  color: white;
+  background-color: green;
+  padding: 8px;
+  border-radius: 10px;
+}
+.dec {
+  background-color: red;
+}
+.popup-data {
+  color: lime;
+}
+.toast-enter-from {
+  opacity: 0;
+  transform: translateY(-60%);
+}
+.toast-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-enter-active {
+  transition: all 0.3s ease;
+}
+.toast-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-leave-to {
+  opacity: 0;
+  transform: translateY(-60%);
+}
+.toast-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s;
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translateY(-50%) translateX(100vw);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 98;
+  background-color: rgba(0, 0, 0, 0.542);
+}
 @media (min-width: 350px) and (max-width: 950px) {
+  .inc-alert {
+    z-index: 99;
+    position: fixed;
+    top: 0;
+    margin-left: 30%;
+    margin-top: 20%;
+  }
+  .popup-con {
+    position: fixed;
+    top: 0;
+    margin: 0 auto;
+    margin-top: 50%;
+    width: 60%;
+    height: 30%;
+  }
   .product-con {
     display: block;
   }
   .product-image {
-    width: 200px;
+    width: 220px;
     height: 250px;
     padding: 20px;
     background-color: #ea00232c;
@@ -244,7 +403,10 @@ button:hover {
   }
   .cart-con {
     margin: auto;
-    margin-left: 50px;
+    margin-left: 30px;
+  }
+  button {
+    width: 80%;
   }
 }
 </style>

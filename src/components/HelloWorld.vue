@@ -1,5 +1,8 @@
 <template>
   <div class="hello">
+    <div class="img-div">
+      <img :src="image" />
+    </div>
     <div class="text-con">
       <h1>{{ msg }}</h1>
 
@@ -11,9 +14,6 @@
       <router-link class="nav-item" to="/counter">
         <button>Buy Product</button></router-link
       >
-    </div>
-    <div class="img-div">
-      <img :src="image" />
     </div>
   </div>
 </template>
@@ -102,8 +102,8 @@ button {
   }
   img {
     /* position: absolute; */
-    width: 70%;
-    padding-top: 40px;
+    width: 50%;
+    padding-top: 5px;
     margin-left: 50px;
     box-shadow: 30px solid black[];
   }

@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <h1 class="logo">Phantom Wares</h1>
+    <h1 class="logo">Phantom <span style="color: #ff5a00">Wares</span></h1>
     <div class="nav">
       <router-link class="nav-item" to="/">Home</router-link> |
       <router-link class="nav-item" to="/counter">Counter Task</router-link> |
