@@ -21,19 +21,19 @@
         </span>
         <div class="cart-con">
           <h3>
-            Input Quantity:
             <form style="align-items: center">
               <input
                 v-model="qty"
-                style="width: 40%"
+                style="width: 50%"
                 class="value"
-                type="number"
+                type="tel"
                 placeholder="Input Qty"
               />
               <button
                 @click.prevent="setValueHandler"
                 style="
-                  width: 20%;
+                  width: 30%;
+                  margin-left: 40px;
                   height: auto;
                   background-color: orangered;
                   color: white;
@@ -50,6 +50,7 @@
             @click="
               qtyInc = true;
               qtyDec = false;
+              qtyClr = false;
             "
           >
             <button class="button1" @click="increment">
@@ -62,6 +63,7 @@
           <span
             @click="
               qtyDec = true;
+              qtyClr = false;
               qtyInc = false;
             "
           >
@@ -74,7 +76,15 @@
               - Remove
             </button>
           </span>
-          <button class="button3" @click="reset">X Clear</button>
+          <span
+            @click="
+              qtyDec = false;
+              qtyInc = false;
+              qtyClr = true;
+            "
+          >
+            <button class="button3" @click="reset">X Clear</button>
+          </span>
           <br />
           <Transition name="fade" appear>
             <button
@@ -116,6 +126,11 @@
           <h1>Item Removed</h1>
         </div>
       </Transition>
+      <Transition name="toast" appear>
+        <div class="inc-alert clr" v-if="qtyClr">
+          <h1>Cleared</h1>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -148,6 +163,7 @@ export default {
       showModal: false,
       qtyInc: false,
       qtyDec: false,
+      qtyClr: false,
     };
   },
 
@@ -285,12 +301,16 @@ button:hover {
 .product-details p {
   font-size: 20px;
 }
+form {
+  margin-left: 10px;
+}
 .value {
   background-color: rgba(0, 0, 0, 0.653);
-  border: none;
+  border: 2px solid orange;
   width: 30px;
-  padding: 10px;
+  padding: 15px;
   color: white;
+  border-radius: 10px;
 }
 .product-image {
   width: 400px;
@@ -333,6 +353,10 @@ button:hover {
 }
 .dec {
   background-color: red;
+}
+.clr {
+  background-color: white;
+  color: red;
 }
 .popup-data {
   color: lime;
@@ -385,6 +409,9 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.542);
 }
 @media (min-width: 350px) and (max-width: 950px) {
+  form {
+    margin-left: 40px;
+  }
   .inc-alert {
     z-index: 99;
     position: fixed;
