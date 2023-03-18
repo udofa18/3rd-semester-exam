@@ -23,3 +23,9 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 # 3rd-semester-exam
+
+### Descrition
+The idead is to have a product app where a user can but a product. 
+
+# Deployment link:
+ https://3rd-semester-exam-b2nuqppri-udofa18.vercel.app/counter
