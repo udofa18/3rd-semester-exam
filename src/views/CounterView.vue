@@ -22,11 +22,28 @@
         <div class="cart-con">
           <h3>
             Input Quantity:
-            <input
-              class="value"
-              @keydown.enter="setValueHandler"
-              @input="setValueHandler"
-            />
+            <form style="align-items: center">
+              <input
+                v-model="qty"
+                style="width: 40%"
+                class="value"
+                type="number"
+                placeholder="Input Qty"
+              />
+              <button
+                @click.prevent="setValueHandler"
+                style="
+                  width: 20%;
+                  height: auto;
+                  background-color: orangered;
+                  color: white;
+                  height: auto;
+                  text-align: center;
+                "
+              >
+                set
+              </button>
+            </form>
             <h6>Press Enter</h6>
           </h3>
           <span
@@ -107,6 +124,7 @@
 // import vuex from "vuex";
 
 // vue.use(vuex);
+import { ref } from "vue";
 import image from "../assets/Subject.png";
 import useCounter from "../components/counter";
 
@@ -143,10 +161,10 @@ export default {
   },
   setup() {
     const { counter, increment, decrease, reset, setValue } = useCounter();
+    const qty = ref("");
 
-    function setValueHandler(payload) {
-      console.log(+payload?.target?.value);
-      setValue(+payload?.target?.value);
+    function setValueHandler() {
+      setValue(+qty.value);
     }
     return {
       counter,
@@ -154,6 +172,7 @@ export default {
       decrease,
       reset,
       setValueHandler,
+      qty,
     };
   },
 };

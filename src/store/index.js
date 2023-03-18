@@ -16,7 +16,6 @@ export default createStore({
   mutations: {
     increment(state) {
       state.count++;
-      state.qtyInc = false;
     },
     decrease(state) {
       state.count -= 1;
